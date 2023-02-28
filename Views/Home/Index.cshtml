@@ -1,0 +1,80 @@
+﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    var data = Context.Session.GetString("cart");
+
+    int coutCart = 0;
+    if (data == null)
+    {
+        coutCart = 0;
+    }
+    else
+    {
+        var data2 = Context.Session.GetString("cart");
+        List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(data2);
+        foreach (var item in dataCart)
+        {
+            coutCart += item.Quantity;
+        }
+    }
+}
+<div id="main">
+    <div id="slideshow" style="margin-left: 14%;">
+        <ul id="slides">
+            <li><img src="~/images/slides/01.jpg" alt="" /></li>
+            <li><img src="~/images/slides/02.jpg" alt="" /></li>
+            <li><img src="~/images/slides/03.jpg" alt="" /></li>
+        </ul>
+        <span></span> <a href="#"><img src="~/images/prev-slide.png" alt="" id="prev" /></a> <a href="#"><img src="~/images/next-slide.png" alt="" id="next" /></a>
+    </div>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-group" }))
+    {
+        <div class="d-flex justify-content-end" style="margin-right: 6%; margin-top: 10px">
+            <input type="Text" class="form-control mr-sm-2" name="search" placeholder="Search" style="width: 250px; margin-top: 5px; height: 45px; ">
+            <a asp-area="" asp-controller="Home" asp-action="ListCart" style="padding:10px; text-decoration: none">
+                <img src="~/images/cart.png" style="width:45px !important;height:45px;display:inline-block;" />
+                <span class='badge badge-warning' id='lblCartCount'> @coutCart </span>
+            </a>
+        </div>
+    }
+    <div>
+        <h2 style="text-align: center; color: orange">List Product</h2>
+    </div>
+    <div class="d-flex align-content-stretch flex-wrap" style="margin-left: 13%;">
+        @foreach (var item in Model)
+        {
+            <div class="book-item">
+                <div>
+                    <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@item.Image" height="200" width="300" style="margin: 5px 5px" asp-append-version="true">
+                    </a>
+                </div>
+                <h4>@item.Title</h4>
+                <h5>@item.Author</h5>
+                <p class="thumb-text">@item.Description</p>
+                <div style="margin-top: 15px">
+                    <a class="btn btn-primary" asp-controller="Books" asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; margin-left: 15px; margin-right: 70px">View Detail</a>
+                    <a class="btn btn-danger" asp-controller="Home" asp-action="addCart" asp-route-id="@item.Id" style="text-decoration: none;">Add to Cart</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

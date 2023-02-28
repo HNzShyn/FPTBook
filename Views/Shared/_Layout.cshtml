@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FBook</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FBook.styles.css" asp-append-version="true" />
+    <!-- JS -->
+    <script type="text/javascript" src="~/js/jquery_1.3.2.js"></script>
+    <script type="text/javascript" src="~/js/jqueryui.js"></script>
+    <script type="text/javascript" src="~/js/easing.js"></script>
+    <script type="text/javascript" src="~/js/jquery.cycle.all.js"></script>
+    <script type="text/javascript" src="~/js/custom.js"></script>
+    <!-- ENDS JS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/style.css" type="text/css" media="screen" />
+    <!-- ENDS CSS -->
+    <!-- Cufon -->
+    <script src="~/js/cufon-yui.js" type="text/javascript"></script>
+    <script src="~/js/bebas_400.font.js" type="text/javascript"></script>
+    <script type="text/javascript">Cufon.replace('.custom', { fontFamily: 'bebas', hover: true });</script>
+    <!-- /Cufon -->
+    <style>
+        .badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px; 
+}
+footer{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: #111;
+}
+footer .content{
+  max-width: 1350px;
+  margin: auto;
+  padding: 20px;
+}
+footer .content p,a{
+  color: #fff;
+}
+footer .content .box{
+  width: 33%;
+  transition: all 0.4s ease;
+}
+footer .content .topic{
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+
+}
+footer .content p{
+  text-align: justify;
+}
+footer .content .lower .topic{
+  margin: 24px 0 5px 0;
+}
+footer .content .lower i{
+  padding-right: 16px;
+}
+footer .content .middle{
+  padding-left: 80px;
+}
+footer .content .middle a{
+  line-height: 32px;
+}
+footer .content .right input[type="text"]{
+  height: 45px;
+  width: 100%;
+  outline: none;
+  color: #d9d9d9;
+  background: #000;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 17px;
+  border: 2px solid #222222;
+}
+footer .content .right input[type="submit"]{
+  height: 42px;
+  width: 100%;
+  font-size: 18px;
+  color: #d9d9d9;
+  background: #eb2f06;
+  outline: none;
+  border-radius: 5px;
+  letter-spacing: 1px;
+
+  margin-top: 12px;
+  border: 2px solid #eb2f06;
+  transition: all 0.3s ease-in-out;
+}
+.content .right input[type="submit"]:hover{
+  background: none;
+  color:  #eb2f06;
+}
+footer .content .media-icons a{
+  font-size: 16px;
+  height: 45px;
+  width: 45px;
+  display: inline-block;
+  text-align: center;
+  line-height: 43px;
+  border-radius: 5px;
+  border: 2px solid #222222;
+  margin: 30px 5px 0 0;
+  transition: all 0.3s ease;
+}
+.content .media-icons a:hover{
+  border-color: #eb2f06;
+}
+
+footer a{
+  transition: all 0.3s ease;
+}
+footer a:hover{
+  color: #eb2f06;
+}
+ {
+  footer .content .middle{
+    padding-left: 50px;
+  }
+  footer .content .box{
+    width: 50%;
+  }
+  .content .right{
+    margin-top: 40px;
+  }
+  footer .content .box{
+    width: 100%;
+    margin-top: 30px;
+  }
+  footer .content .middle{
+    padding-left: 0;
+  }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FBook</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @if (this.User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Books" asp-action="Index">Manage Book</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Manage Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Orders" asp-action="Index">Manage Order</a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+ <footer>
+   <div class="content">
+     <div class="left box">
+       <div class="upper">
+         <div class="topic">About us</div>
+       </div>
+       <div class="lower">
+         <div class="topic">Contact us</div>
+         <div class="phone">
+           <a href="#"><i class="fas fa-phone-volume"></i>+007 9089 6767</a>
+         </div>
+         <div class="email">
+           <a href="#"><i class="fas fa-envelope"></i>abc@gmail.com</a>
+         </div>
+       </div>
+     </div>
+     <div class="middle box">
+       <div class="topic">Our Services</div>
+       <div><a href="#">Web Design, Development</a></div>
+       <div><a href="#">Web UX Design, Reasearch</a></div>
+       <div><a href="#">Web User Interface Design</a></div>
+     </div>
+     <div class="right box">
+       <div class="topic">Subscribe us</div>
+       <form action="#">
+         <div class="media-icons">
+           <a href="#"><i class="fab fa-facebook-f"></i></a>
+           <a href="#"><i class="fab fa-instagram"></i></a>
+           <a href="#"><i class="fab fa-twitter"></i></a>
+           <a href="#"><i class="fab fa-youtube"></i></a>
+           <a href="#"><i class="fab fa-linkedin-in"></i></a>
+         </div>
+       </form>
+     </div>
+   </div>
+ </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
