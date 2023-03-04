@@ -200,7 +200,7 @@ namespace FPTBook.Controllers
 
             Order order = new Order
             {
-                Name = _context.Users.FirstOrDefault().Email,
+                Name = User.FindFirstValue(ClaimTypes.Name),
                 Quantity = quantity,
                 Price = price,
                 OrderDate = DateTime.Now,
