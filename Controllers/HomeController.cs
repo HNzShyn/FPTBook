@@ -181,36 +181,23 @@ namespace FPTBook.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> CheckOut()
         {
-
-            // Xử lý khi đặt hàng
             var cart = GetCartItems();
-
-            decimal total = 0;
-            int quantity = 0;
-            decimal price = 0;
-            string name_book = "";
-            foreach (var item in cart)
-            {
-                quantity = item.Quantity;
-                price = item.Book.Price;
-                total = quantity * price;
-                name_book = item.Book.Title;
-            }
             // tạo cấu trúc db lưu lại đơn hàng và xóa cart khỏi session
-
-            Order order = new Order
+            for (int i = 0; i < cart.Count; i++)
             {
-                Name = User.FindFirstValue(ClaimTypes.Name),
-                Quantity = quantity,
-                Price = price,
-                OrderDate = DateTime.Now,
-                Total = total,
-                Title_Book = name_book
-            };
-            _context.Order.Add(order);
-            await _context.SaveChangesAsync();
+                Order order = new Order
+                {
+                    Name = User.FindFirstValue(ClaimTypes.Email),
+                    Quantity = cart[i].Quantity,
+                    Price = cart[i].Book.Price,
+                    OrderDate = DateTime.Now,
+                    Total = cart[i].Book.Price * cart[i].Quantity,
+                    Title_Book = cart[i].Book.Title
+                };
+                _context.Order.Add(order);
+                await _context.SaveChangesAsync();
+            }
             HttpContext.Session.Remove("cart");
-
             return RedirectToAction("Index");
         }
     }
